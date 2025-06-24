@@ -1,10 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from .models import Skill
-from .serializers import SkillSerializer
+from .serializers import SkillSerializer, UserSerializer
 
 class SkillListCreateView(APIView):
     def get(self, request):
         skills = Skill.objects.all()
         serializer = SkillSerializer(skills, many=True)
         return Response(serializer.data)
+
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Registrierung erfolgreich!'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
