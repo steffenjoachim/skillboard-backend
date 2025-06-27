@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Skill, User
+from .models import Skill, User, Category, Subcategory
 
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,3 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+class SubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subcategory
+        fields = ['id', 'name']
+
+class CategorySerializer(serializers.ModelSerializer):
+    subcategories = SubcategorySerializer(many=True, read_only=True)
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'subcategories']

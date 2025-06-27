@@ -8,6 +8,19 @@ class Skill(models.Model):
     def __str__(self):
         return self.title
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class Subcategory(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, related_name='subcategories', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.category.name} > {self.name}"
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
