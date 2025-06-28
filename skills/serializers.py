@@ -4,7 +4,7 @@ from .models import Skill, User, Category, Subcategory
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
-        fields = ['id', 'title', 'category']
+        fields = ['id', 'title', 'category', 'subcategory', 'level']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
